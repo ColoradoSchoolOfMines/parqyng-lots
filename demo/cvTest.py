@@ -1,10 +1,11 @@
-#!/usr/bin/python3.6
+#!/usr/bin/env python3.6
 
 from pynq.overlays.base import BaseOverlay
 from pynq.lib.video import *
 import numpy as np
 import cv2
 import curses
+import sys
 
 base = BaseOverlay("base.bit")
 
@@ -24,19 +25,41 @@ print(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 print(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 print("Capture device is open?: " + str(cap.isOpened()))
 
-run = True
-while run:
-    ret, frame = cap.read()
-    check_exit = stdscr.getch()
-    if check_exit == ord('q'):
-        run = False
+#face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+#eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+try:
+    first_frame = None
+    run = True
+    while run:
+        ret, frame = cap.read()
+        check_exit = stdscr.getch()
+        if check_exit == ord('q'):
+            run = False
+        
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    if ret:
-        outframe = hdmi_out.newframe()
-        outframe[:] = frame
-        hdmi_out.writeframe(outframe)
-    else:
-        raise RuntimeError("Error while reading from camera")
+        '''
+        if first_frame is None:
+            first_frame = gray
+            continue
+
+        frame_delta = cv2.absdiff(first_frame, gray)
+        ret, thresh = cv2.threshold(frame_delta, 25, 255, cv2.THRESH_BINARY)
+        gray = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+        for (x,y,w,h) in faces:
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        '''
+        if ret:
+            outframe = hdmi_out.newframe()
+            outframe[:] = frame
+            #outframe[:] = gray
+            hdmi_out.writeframe(outframe)
+        else:
+            raise RuntimeError("Error while reading from camera")
+except:
+    print("Wait what?")
+    print(sys.exc_info()[0])
 
 curses.endwin()
 print("Exiting, cleaning up...")

@@ -1,4 +1,5 @@
-# Parqyng Lots: Xilinx Hackathon Project
+![Parqyng Lots](https://github.com/ColoradoSchoolOfMines/parqyng-lots/raw/master/assets/logo.png)
+# Xilinx Hackathon Project
 
 This is a hackathon project for tracking the number of cars in an arbitrary
 number of parking lots with an arbitrary number of enterances.

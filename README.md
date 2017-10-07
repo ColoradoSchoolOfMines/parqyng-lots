@@ -3,6 +3,36 @@
 This is a Proof of Concept for tracking the number of cars in an arbitrary
 number of parking lots.
 
+## Installation
+### Car Detection Nodes
+Open the `client/detector.ipynb` file in Jupyter Notebooks. Follow the
+instructions for installing the hardware.
+
+### Server
+The server is written Python using the [TurboGears](http://turbogears.com/)
+framework.
+
+1. Install the application and its dependencies:
+
+        $ pip install -e . --user
+
+2. If you do not have `gearbox` installed:
+
+        $ pip install --user tg.devtools
+
+3. Setup the application:
+
+        $ cp development.ini.sample development.ini
+        $ gearbox setup-app
+
+4. Finally, serve the application:
+
+        $ gearbox serve --reload --debug
+
+### Server Displays
+Open the `client/displa_server` file in Jupyter Notebooks. Follow the
+instructions for installation of the hardware.
+
 ## Contributors
 - [Daichi Jameson](https://github.com/daichij)
 - [Jack Rosenthal](https://github.com/jackrosenthal)

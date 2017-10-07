@@ -14,6 +14,7 @@ from central.model.lot import Lot
 from central.model.node import Node
 from tgext.admin.tgadminconfig import BootstrapTGAdminConfig as TGAdminConfig
 from tgext.admin.controller import AdminController
+from central.config.app_cfg import AdminConfig
 
 from central.lib.base import BaseController
 from central.controllers.error import ErrorController
@@ -36,7 +37,7 @@ class RootController(BaseController):
 
     """
     secc = SecureController()
-    admin = AdminController(model, DBSession, config_type=TGAdminConfig)
+    admin = AdminController(model, DBSession, config_type=AdminConfig)
 
     error = ErrorController()
 

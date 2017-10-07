@@ -28,7 +28,7 @@ def bootstrap(command, conf, vars):
         model.DBSession.add(g)
 
         p = model.Permission()
-        p.permission_name = 'manage'
+        p.permission_name = 'admin'
         p.description = 'This permission gives an administrative right'
         p.groups.append(g)
 
@@ -37,8 +37,6 @@ def bootstrap(command, conf, vars):
         l = model.Lot()
         l.name = 'Empty Lot'
         model.DBSession.add(l)
-
-        model.DBSession.add(p)
 
         model.DBSession.flush()
         transaction.commit()

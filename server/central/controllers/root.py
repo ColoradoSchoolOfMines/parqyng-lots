@@ -8,8 +8,6 @@ from tg.i18n import ugettext as _, lazy_ugettext as l_
 from tg.exceptions import HTTPFound
 from tg import predicates
 from central import model
-from central.controllers.secure import SecureController
-from central.controllers.websocket import WebSocketController
 from central.lib.base import BaseController
 from central.model import DBSession
 from central.model.lot import Lot
@@ -38,7 +36,6 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
-    secc = SecureController()
     admin = AdminController(model, DBSession, config_type=AdminConfig)
 
     error = ErrorController()

@@ -8,11 +8,9 @@
     <div py:for="lot in lots" class="panel panel-${lot.status}" id="lot-${lot.id}">
       <div class="panel-heading"><h3 class="panel-title">${lot.name}</h3></div>
       <div class="panel-body" id="lot-${lot.id}-body">
-        <p><b>Cars: <span id="lot-${lot.id}-cars" py:content="lot.cars" /></b></p>
+        <p><b>Cars: <span id="lot-${lot.id}-cars" py:content="str(lot.cars) + ' ()'" /></b></p>
         <p py:for="node in lot.nodes" id="node-${node.key}">
-          <b>Node: ${node.key}:</b>
-          <span class="node-in">${h.icon('arrow-up')} 0</span>
-          <span class="node-out">${h.icon('arrow-down')} 0</span>
+          <b>Node: ${node.key}</b>
         </p>
       </div>
     </div>

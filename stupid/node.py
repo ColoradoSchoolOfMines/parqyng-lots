@@ -7,7 +7,6 @@ class Node:
         self.cfg = cfg
         self.enter = 0
         self.exit = 0
-        self.con = HTTPConnection(self.cfg['server'])
 
     def delta(self, delta):
         if delta < 0:
@@ -16,24 +15,36 @@ class Node:
             self.enter += delta
 
     def send_report(self):
-        self.con.request('POST', '/report', json.dumps({
+        con = HTTPConnection(self.cfg['server'])
+        con.request('POST', '/report', json.dumps({
             'key': self.cfg['key'],
             'enter': self.enter,
             'exit': self.exit,
         }))
-        res = self.con.getresponse()
+        res = con.getresponse()
         assert res.code == 200
 
         self.enter = 0
         self.exit = 0
 
+        data = json.load(res)
+        update = data.get('update')
+        new = data.get('config') or update
+        if new is not None:
+            self.cfg = {**new, **self.cfg}
+
+        if update is not None:
+            json.dump(update, open('config.json', 'w'))
+
     def retrieve(self):
-        self.con.request('GET', '/node/{}'.format(self.cfg['key']))
-        res = self.con.getresponse()
+        con = HTTPConnection(self.cfg['server'])
+        con.request('GET', '/node/{}'.format(self.cfg['key']))
+        res = con.getresponse()
         assert res.code == 200
         return json.load(res)
 
 def connect(**kwargs):
+    os.path.isfile('lock.json')
     loaded = json.load(open('config.json'))
     cfg = {**loaded, **kwargs}
 

@@ -22,9 +22,6 @@ def check_obj(haar_file):
     return len(objs)
 
 if __name__ == "__main__":
-   print(len(sys.argv))
-   for arg in sys.argv:
-       print(arg)
    if len(sys.argv) != 2:
        print("./check_car.py <haar_file>")
        exit(-1)

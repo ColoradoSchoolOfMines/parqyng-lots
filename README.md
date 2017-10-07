@@ -8,3 +8,6 @@ number of parking lots.
 - [Jack Rosenthal](https://github.com/jackrosenthal)
 - [Sam Sartor](https://github.com/samsartor)
 - [Sumner Evans](https://github.com/sumnerevans)
+
+## License
+This repository is licensed under the MIT License (see LICENSE file).

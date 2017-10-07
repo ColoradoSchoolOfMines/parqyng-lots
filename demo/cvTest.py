@@ -38,22 +38,22 @@ try:
         
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        '''
         if first_frame is None:
             first_frame = gray
             continue
 
         frame_delta = cv2.absdiff(first_frame, gray)
         ret, thresh = cv2.threshold(frame_delta, 25, 255, cv2.THRESH_BINARY)
-        gray = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
+        gray = cv2.cvtColor(thresh, cv2.COLOR_GRAY2BGR)
+        '''
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
         for (x,y,w,h) in faces:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
         '''
         if ret:
             outframe = hdmi_out.newframe()
-            outframe[:] = frame
-            #outframe[:] = gray
+            #outframe[:] = frame
+            outframe[:] = gray
             hdmi_out.writeframe(outframe)
         else:
             raise RuntimeError("Error while reading from camera")

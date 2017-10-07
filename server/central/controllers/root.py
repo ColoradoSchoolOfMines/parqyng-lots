@@ -14,8 +14,6 @@ from tgext.admin.tgadminconfig import BootstrapTGAdminConfig as TGAdminConfig
 from central import model
 from central.config.app_cfg import AdminConfig
 from central.controllers.error import ErrorController
-from central.controllers.secure import SecureController
-from central.controllers.websocket import WebSocketController
 from central.lib.base import BaseController
 from central.model import DBSession
 from central.model.lot import Lot
@@ -38,7 +36,6 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
-    secc = SecureController()
     admin = AdminController(model, DBSession, config_type=AdminConfig)
 
     error = ErrorController()

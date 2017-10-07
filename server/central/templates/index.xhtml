@@ -1,11 +1,22 @@
 <html py:extends="master.xhtml" py:strip="True">
   <head py:block="head" py:strip="True">
-      <title py:block="master_title">Mines Parking Lots</title>
+    <title py:block="master_title">Mines Parking Lots</title>
   </head>
 
   <body py:block="body" py:strip="True">
+    <h1>Parking Lot Status</h1>
+    <div py:for="lot in lots" class="panel panel-${lot.status}">
+      <div class="panel-heading"><h3 class="panel-title">${lot.name}</h3></div>
+      <div class="panel-body">
+        <p><b>Cars: ${lot.cars}</b></p>
+        <p py:for="node in lot.nodes">
+          <b>Node: ${node.key}:</b>
+          <span class="node-in">${h.icon('arrow-up')} 0</span>
+          <span class="node-out">${h.icon('arrow-down')} 0</span>
+        </p>
+      </div>
+    </div>
   </body>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
-  <script src="${tg.url('javascript/livefeed.js')}"></script>
 </html>

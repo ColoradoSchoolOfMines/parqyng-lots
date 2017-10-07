@@ -130,3 +130,19 @@ class RootController(BaseController):
             }
         else:
             abort(404)
+
+    @expose('json')
+    def node(self, key):
+        node = DBSession.query(Node).filter(Node.key==key).first()
+        if node is None:
+            abort(404)
+        
+        data = {}
+        if node.lot is not None:
+            data['lot'] = {
+                'id': node.lot.id,
+                'name': node.lot.name,
+                'cars': node.lot.cars,
+            }
+
+        return data

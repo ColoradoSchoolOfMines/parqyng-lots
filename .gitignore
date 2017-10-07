@@ -4,3 +4,4 @@ build
 dist
 central.egg-info
 *.orig
+.ipynb_checkpoints

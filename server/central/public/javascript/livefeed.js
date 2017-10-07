@@ -1,4 +1,10 @@
 $(function(){
+    function status(lot) {
+        var percent = lot.cars / lot.capacity;
+        if (percent < 0.9) return 'success';
+        if (percent < 0.95) return 'warning';
+        return 'danger';
+    };
     setInterval(function() {
         $.getJSON('/lots.json', function (data) {
             data["lots"].forEach(function (lot) {
@@ -13,6 +19,7 @@ $(function(){
                          <span class="node-in"><i class="glyphicon glyphicon-arrow-down"></i> 0</span>`
                     );
                 });
+                $(`#lot-${lot.id}`).removeClass("panel-success panel-warning panel-danger").addClass(`panel-${status(lot)}`);
             });
         });
     }, 200);

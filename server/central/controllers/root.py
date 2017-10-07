@@ -2,21 +2,23 @@
 """Main Controller"""
 
 import random
-from tg import expose, flash, require, url, lurl, abort
-from tg import request, redirect, tmpl_context
-from tg.i18n import ugettext as _, lazy_ugettext as l_
+
+from tg import (abort, expose, flash, lurl, predicates, redirect, request,
+                require, tmpl_context, url)
 from tg.exceptions import HTTPFound
-from tg import predicates
+from tg.i18n import lazy_ugettext as l_
+from tg.i18n import ugettext as _
+from tgext.admin.controller import AdminController
+from tgext.admin.tgadminconfig import BootstrapTGAdminConfig as TGAdminConfig
+
 from central import model
-from central.controllers.secure import SecureController
+from central.config.app_cfg import AdminConfig
+from central.controllers.error import ErrorController
+from central.lib.base import BaseController
 from central.model import DBSession
 from central.model.lot import Lot
 from central.model.node import Node
-from tgext.admin.tgadminconfig import BootstrapTGAdminConfig as TGAdminConfig
-from tgext.admin.controller import AdminController
-
-from central.lib.base import BaseController
-from central.controllers.error import ErrorController
+from sqlalchemy.orm import joinedload
 
 __all__ = ['RootController']
 
@@ -35,8 +37,7 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
-    secc = SecureController()
-    admin = AdminController(model, DBSession, config_type=TGAdminConfig)
+    admin = AdminController(model, DBSession, config_type=AdminConfig)
 
     error = ErrorController()
 
@@ -46,7 +47,8 @@ class RootController(BaseController):
     @expose('central.templates.index')
     def index(self):
         """Handle the front-page."""
-        return dict(page='index')
+        lots = DBSession.query(Lot).all()
+        return dict(page='index', lots=lots)
 
     @expose('central.templates.login')
     def login(self, came_from=lurl('/'), failure=None, login=''):
@@ -94,7 +96,7 @@ class RootController(BaseController):
 
     @expose('json')
     def register(self, lot=None):
-        node = Node(key = random.randint(0, 1<<31))
+        node = Node(key=random.randint(0, 1 << 31))
         node.lot_id = lot
         DBSession.add(node)
         return {
@@ -106,7 +108,7 @@ class RootController(BaseController):
         if request.method == "POST":
             data = request.json
             key = data['key']
-            node = DBSession.query(Node).filter(Node.key==key).first()
+            node = DBSession.query(Node).filter(Node.key == key).first()
             if not node:
                 abort(404, "no such node")
 
@@ -120,13 +122,5 @@ class RootController(BaseController):
             abort(405)
 
     @expose('json')
-    def lot(self, lot):
-        lot = DBSession.query(Lot).filter(Lot.id==lot).first()
-        if lot is not None:
-            return {
-                'id': lot.id,
-                'name': lot.name,
-                'cars': lot.cars,
-            }
-        else:
-            abort(404)
+    def lots(self):
+        return {'lots': DBSession.query(Lot).options(joinedload(Lot.nodes)).all()}

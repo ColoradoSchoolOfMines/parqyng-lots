@@ -5,10 +5,13 @@ Global configuration file for TG2-specific settings in central.
 This file complements development/deployment.ini.
 
 """
+import tg.predicates
 from tg.configuration import AppConfig
+from tg.configuration.auth import TGAuthMetadata
+from tgext.admin.tgadminconfig import BootstrapTGAdminConfig as TGAdminConfig
 
 import central
-from central import model, lib
+from central import model
 
 base_config = AppConfig()
 base_config.renderers = []
@@ -32,9 +35,14 @@ base_config.renderers.append('json')
 
 # Set the default renderer
 base_config.renderers.append('kajiki')
-base_config['templating.kajiki.strip_text'] = False  # Change this in setup.py too for i18n to work.
+# Change this in setup.py too for i18n to work.
+base_config['templating.kajiki.strip_text'] = False
 
 base_config.default_renderer = 'kajiki'
+
+# Admin configuration
+class AdminConfig(TGAdminConfig):
+    allow_only = tg.predicates.has_permission('admin')
 
 
 # Configure Sessions, store data as JSON to avoid pickle security issues
@@ -51,7 +59,6 @@ base_config.sa_auth.cookie_secret = "7e32df38-56ed-478b-9694-0e1c3b6972a2"
 # what is the class you want to use to search for users in the database
 base_config.sa_auth.user_class = model.User
 
-from tg.configuration.auth import TGAuthMetadata
 
 
 # This tells to TurboGears how to retrieve the data for your user
@@ -79,7 +86,8 @@ class ApplicationAuthMetadata(TGAuthMetadata):
             from tg.exceptions import HTTPFound
 
             params = parse_qs(environ['QUERY_STRING'])
-            params.pop('password', None)  # Remove password in case it was there
+            # Remove password in case it was there
+            params.pop('password', None)
             if user is None:
                 params['failure'] = 'user-not-found'
             else:
@@ -88,7 +96,8 @@ class ApplicationAuthMetadata(TGAuthMetadata):
 
             # When authentication fails send user to login page.
             environ['repoze.who.application'] = HTTPFound(
-                location=environ['SCRIPT_NAME'] + '?'.join(('/login', urlencode(params, True)))
+                location=environ['SCRIPT_NAME'] +
+                '?'.join(('/login', urlencode(params, True)))
             )
 
         return login
@@ -103,6 +112,7 @@ class ApplicationAuthMetadata(TGAuthMetadata):
 
     def get_permissions(self, identity, userid):
         return [p.permission_name for p in identity['user'].permissions]
+
 
 base_config.sa_auth.dbsession = model.DBSession
 

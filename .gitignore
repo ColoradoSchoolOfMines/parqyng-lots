@@ -1,1 +1,6 @@
 __pycache__
+devdata.db
+build
+dist
+central.egg-info
+*.orig

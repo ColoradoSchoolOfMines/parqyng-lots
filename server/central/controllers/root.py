@@ -24,25 +24,12 @@ __all__ = ['RootController']
 
 
 class RootController(BaseController):
-    """
-    The root controller for the central application.
-
-    All the other controllers and WSGI applications should be mounted on this
-    controller. For example::
-
-        panel = ControlPanelController()
-        another_app = AnotherWSGIApplication()
-
-    Keep in mind that WSGI applications shouldn't be mounted directly: They
-    must be wrapped around with :class:`tg.controllers.WSGIAppController`.
-
-    """
     admin = AdminController(model, DBSession, config_type=AdminConfig)
 
     error = ErrorController()
 
     def _before(self, *args, **kw):
-        tmpl_context.project_name = "central"
+        tmpl_context.project_name = "Parqyng Lots"
 
     @expose('central.templates.index')
     def index(self):

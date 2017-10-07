@@ -1,9 +1,10 @@
-# Parking Lots: Xilinx Hackathon Project POC
+# Parqyng Lots: Xilinx Hackathon Project
 
-This is a Proof of Concept for tracking the number of cars in an arbitrary
-number of parking lots.
+This is a hackathon project for tracking the number of cars in an arbitrary
+number of parking lots with an arbitrary number of enterances.
 
 ## Installation
+
 ### Car Detection Nodes
 Open the `client/detector.ipynb` file in Jupyter Notebooks. Follow the
 instructions for installing the hardware.
@@ -33,7 +34,7 @@ framework.
 Open the `client/displa_server` file in Jupyter Notebooks. Follow the
 instructions for installation of the hardware.
 
-## Contributors
+## Hackers
 - [Daichi Jameson](https://github.com/daichij)
 - [Jack Rosenthal](https://github.com/jackrosenthal)
 - [Sam Sartor](https://github.com/samsartor)

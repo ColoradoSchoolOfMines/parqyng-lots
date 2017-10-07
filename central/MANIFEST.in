@@ -1,0 +1,4 @@
+recursive-include central/public *
+include central/public/favicon.ico
+recursive-include central/i18n *
+recursive-include central/templates *

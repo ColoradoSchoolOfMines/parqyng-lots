@@ -4,6 +4,9 @@
 This is a hackathon project for tracking the number of cars in an arbitrary
 number of parking lots with an arbitrary number of enterances.
 
+## Design
+![System Diagram](https://github.com/ColoradoSchoolOfMines/parqyng-lots/raw/master/assets/system-diagram.png)
+
 ## Installation
 
 ### Car Detection Nodes
@@ -32,7 +35,7 @@ framework.
         $ gearbox serve --reload --debug
 
 ### Server Displays
-Open the `client/displa_server` file in Jupyter Notebooks. Follow the
+Open the `client/display_server` file in Jupyter Notebooks. Follow the
 instructions for installation of the hardware.
 
 ## Hackers

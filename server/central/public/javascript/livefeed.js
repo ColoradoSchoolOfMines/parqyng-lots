@@ -34,7 +34,7 @@ $(function(){
                     if (!$(`#node-${node.key}`).length) {
                         $(`<p id="node-${node.key}"></p>`).appendTo($(`#lot-${lot.id}-body`));
                     }
-                    $(`#node-${node.key}`).html(`<b>Node: ${node.key}:</b>`);
+                    $(`#node-${node.key}`).html(`<b>Node: ${node.key}</b>`);
                 });
                 $(`#lot-${lot.id}`).removeClass("panel-success panel-warning panel-danger").addClass(`panel-${status(lot)}`);
             });

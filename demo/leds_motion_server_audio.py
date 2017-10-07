@@ -4,9 +4,11 @@ import time
 base = BaseOverlay('base.bit')
 spacing = 1.8
 
+from concurrent.futures import ThreadPoolExecutor
 from requests_futures.sessions import FuturesSession
-server = "http://192.168.112.82:8080"
-session = FuturesSession()
+executor = ThreadPoolExecutor(max_workers=4)
+server = "http://192.168.112.24:8080"
+session = FuturesSession(executor=executor)
 f_params = session.post(server + '/register?lot=1')
 def log_to_server(n):
     params = f_params.result().json()
@@ -45,7 +47,7 @@ while True:
             last[i] = r
             if r and detect[not i]:
                 ct += [-1, 1][i]
-                [tone_desc, tone_asc][i]()
+                executor.submit([tone_desc, tone_asc][i])
                 log_to_server([-1, 1][i])
                 print("in" if i else "out", "| count", ct, "|", spacing/(clock - detect[not i]), "m/s")
                 detect[not i] = 0

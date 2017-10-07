@@ -25,6 +25,8 @@ central/lib/base.py
 central/lib/helpers.py
 central/model/__init__.py
 central/model/auth.py
+central/model/lot.py
+central/model/node.py
 central/public/favicon.ico
 central/public/css/bootstrap.min.css
 central/public/css/style.css
@@ -37,9 +39,6 @@ central/public/img/turbogears_logo_big.png
 central/public/img/under_the_hood_blue.png
 central/public/javascript/bootstrap.min.js
 central/templates/__init__.py
-central/templates/about.xhtml
-central/templates/data.xhtml
-central/templates/environ.xhtml
 central/templates/error.xhtml
 central/templates/index.xhtml
 central/templates/login.xhtml

@@ -12,16 +12,16 @@ def bootstrap(command, conf, vars):
     from sqlalchemy.exc import IntegrityError
     try:
         u = model.User()
-        u.user_name = 'manager'
-        u.display_name = 'Example manager'
-        u.email_address = 'manager@somedomain.com'
-        u.password = 'managepass'
+        u.user_name = 'admin'
+        u.display_name = 'Ad Min'
+        u.email_address = 'admin@example.com'
+        u.password = 'password'
 
         model.DBSession.add(u)
 
         g = model.Group()
-        g.group_name = 'managers'
-        g.display_name = 'Managers Group'
+        g.group_name = 'admin'
+        g.display_name = 'Admin Group'
 
         g.users.append(u)
 
@@ -34,13 +34,12 @@ def bootstrap(command, conf, vars):
 
         model.DBSession.add(p)
 
-        u1 = model.User()
-        u1.user_name = 'editor'
-        u1.display_name = 'Example editor'
-        u1.email_address = 'editor@somedomain.com'
-        u1.password = 'editpass'
+        l = model.Lot()
+        l.name = 'Empty Lot'
+        model.DBSession.add(l)
 
-        model.DBSession.add(u1)
+        model.DBSession.add(p)
+
         model.DBSession.flush()
         transaction.commit()
     except IntegrityError:

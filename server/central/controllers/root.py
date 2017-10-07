@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Main Controller"""
 
-from tg import expose, flash, require, url, lurl
+import random
+from tg import expose, flash, require, url, lurl, abort
 from tg import request, redirect, tmpl_context
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from tg.exceptions import HTTPFound
@@ -9,6 +10,8 @@ from tg import predicates
 from central import model
 from central.controllers.secure import SecureController
 from central.model import DBSession
+from central.model.lot import Lot
+from central.model.node import Node
 from tgext.admin.tgadminconfig import BootstrapTGAdminConfig as TGAdminConfig
 from tgext.admin.controller import AdminController
 
@@ -44,35 +47,6 @@ class RootController(BaseController):
     def index(self):
         """Handle the front-page."""
         return dict(page='index')
-    @expose('central.templates.about')
-    def about(self):
-        """Handle the 'about' page."""
-        return dict(page='about')
-
-    @expose('central.templates.environ')
-    def environ(self):
-        """This method showcases TG's access to the wsgi environment."""
-        return dict(page='environ', environment=request.environ)
-
-    @expose('central.templates.data')
-    @expose('json')
-    def data(self, **kw):
-        """
-        This method showcases how you can use the same controller
-        for a data page and a display page.
-        """
-        return dict(page='data', params=kw)
-    @expose('central.templates.index')
-    @require(predicates.has_permission('manage', msg=l_('Only for managers')))
-    def manage_permission_only(self, **kw):
-        """Illustrate how a page for managers only works."""
-        return dict(page='managers stuff')
-
-    @expose('central.templates.index')
-    @require(predicates.is_user('editor', msg=l_('Only for the editor')))
-    def editor_user_only(self, **kw):
-        """Illustrate how a page exclusive for the editor works."""
-        return dict(page='editor stuff')
 
     @expose('central.templates.login')
     def login(self, came_from=lurl('/'), failure=None, login=''):
@@ -117,3 +91,42 @@ class RootController(BaseController):
         """
         flash(_('We hope to see you soon!'))
         return HTTPFound(location=came_from)
+
+    @expose('json')
+    def register(self, lot=None):
+        node = Node(key = random.randint(0, 1<<31))
+        node.lot_id = lot
+        DBSession.add(node)
+        return {
+            'key': node.key,
+        }
+
+    @expose('json')
+    def report(self):
+        if request.method == "POST":
+            data = request.json
+            key = data['key']
+            node = DBSession.query(Node).filter(Node.key==key).first()
+            if not node:
+                abort(404, "no such node")
+
+            delta = int(data.get('enter') or 0) - int(data.get('exit') or 0)
+            if node.lot:
+                node.lot.cars += delta
+                DBSession.add(node.lot)
+
+            return {}
+        else:
+            abort(405)
+
+    @expose('json')
+    def lot(self, lot):
+        lot = DBSession.query(Lot).filter(Lot.id==lot).first()
+        if lot is not None:
+            return {
+                'id': lot.id,
+                'name': lot.name,
+                'cars': lot.cars,
+            }
+        else:
+            abort(404)

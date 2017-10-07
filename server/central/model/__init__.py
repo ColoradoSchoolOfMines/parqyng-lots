@@ -59,5 +59,7 @@ def init_model(engine):
 
 # Import your model modules here.
 from central.model.auth import User, Group, Permission
+from central.model.lot import Lot
+from central.model.node import Node
 
-__all__ = ('User', 'Group', 'Permission')
+__all__ = ('User', 'Group', 'Permission', 'Lot', 'Node')

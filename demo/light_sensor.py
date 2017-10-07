@@ -6,11 +6,9 @@ from pynq.lib.arduino import ARDUINO_GROVE_I2C, Grove_Light
 from pynq.overlays.base import BaseOverlay
 
 base = BaseOverlay("base.bit")
-print('base done')
 
+# Note that you need an ADC to I2C board
 light_sensor = Grove_Light(base.ARDUINO, ARDUINO_GROVE_I2C)
-
-print('INIT COMPLETE')
 
 while True:
     print(light_sensor.read())

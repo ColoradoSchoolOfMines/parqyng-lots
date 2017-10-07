@@ -18,6 +18,7 @@ from central.lib.base import BaseController
 from central.model import DBSession
 from central.model.lot import Lot
 from central.model.node import Node
+from sqlalchemy.orm import joinedload
 
 __all__ = ['RootController']
 
@@ -121,29 +122,5 @@ class RootController(BaseController):
             abort(405)
 
     @expose('json')
-    def lot(self, lot):
-        lot = DBSession.query(Lot).filter(Lot.id == lot).first()
-        if lot is not None:
-            return {
-                'id': lot.id,
-                'name': lot.name,
-                'cars': lot.cars,
-            }
-        else:
-            abort(404)
-
-    @expose('json')
-    def node(self, key):
-        node = DBSession.query(Node).filter(Node.key == key).first()
-        if node is None:
-            abort(404)
-
-        data = {}
-        if node.lot is not None:
-            data['lot'] = {
-                'id': node.lot.id,
-                'name': node.lot.name,
-                'cars': node.lot.cars,
-            }
-
-        return data
+    def lots(self):
+        return {'lots': DBSession.query(Lot).options(joinedload(Lot.nodes)).all()}

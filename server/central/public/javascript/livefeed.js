@@ -1,14 +1,19 @@
 $(function(){
-    var socket = io.connect('/pingpong', {'resource':'socketio'});
-    socket.on('pong',function(data){
-        $('#result').append(data.sound + '<br/>');
-    });
-    socket.on('error',function(error, info) {
-        if (error == 'method_access_denied') { alert(info); }
-        else { console.log(info); alert(error); }
-    });
-    $('.ping').click(function(event){
-        event.preventDefault();
-        socket.emit('ping',{'type':$(this).data('attack')});
-    });
+    setInterval(function() {
+        $.getJSON('/lots.json', function (data) {
+            data["lots"].forEach(function (lot) {
+                $(`#lot-${lot.id}-cars`).text(lot.cars);
+                lot.nodes.forEach(function (node) {
+                    if (!$(`node-${node.id}`).length) {
+                        $(`<p id="node-${node.id}"></p>`).appendTo($(`#lot-${lot.id}-body`));
+                    }
+                    $(`node-${node.id}`).text(
+                        `<b>Node: ${node.id}</b> \
+                         <span class="node-in"><i class="glyphicon glyphicon-arrow-up"></i> 0</span> \
+                         <span class="node-in"><i class="glyphicon glyphicon-arrow-down"></i> 0</span>`
+                    );
+                });
+            });
+        });
+    }, 200);
 });

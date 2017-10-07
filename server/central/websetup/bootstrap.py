@@ -34,9 +34,20 @@ def bootstrap(command, conf, vars):
 
         model.DBSession.add(p)
 
-        l = model.Lot()
-        l.name = 'Empty Lot'
-        model.DBSession.add(l)
+        d_lot = model.Lot()
+        d_lot.name = 'D Lot'
+        d_lot.capacity = 100
+        model.DBSession.add(d_lot)
+
+        ctlm_lot = model.Lot()
+        ctlm_lot.name = 'CTLM Lot'
+        ctlm_lot.capacity = 200
+        model.DBSession.add(ctlm_lot)
+
+        q_lot = model.Lot()
+        q_lot.name = 'Q Lot'
+        q_lot.capacity = 340
+        model.DBSession.add(q_lot)
 
         model.DBSession.flush()
         transaction.commit()

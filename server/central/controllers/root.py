@@ -9,6 +9,8 @@ from tg.exceptions import HTTPFound
 from tg import predicates
 from central import model
 from central.controllers.secure import SecureController
+from central.controllers.websocket import WebSocketController
+from central.lib.base import BaseController
 from central.model import DBSession
 from central.model.lot import Lot
 from central.model.node import Node

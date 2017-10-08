@@ -15,7 +15,6 @@ def current_year():
 def icon(icon_name):
     return Markup('<i class="glyphicon glyphicon-%s"></i>' % icon_name)
 
-
 # Import commonly used helpers from WebHelpers2 and TG
 from tg.util.html import script_json_encode
 

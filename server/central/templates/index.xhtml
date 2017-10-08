@@ -9,6 +9,7 @@
       <div class="panel-heading"><h3 class="panel-title">${lot.name}</h3></div>
       <div class="panel-body" id="lot-${lot.id}-body">
         <p><b>Cars: <span id="lot-${lot.id}-cars" py:content="str(lot.cars) + ' ()'" /></b></p>
+        <p><b><span id="lot-${lot.id}-percentage" py:content="str(int(lot.cars / lot.capacity * 100))" />% Full</b></p>
         <p py:for="node in lot.nodes" id="node-${node.key}">
           <b>Node: ${node.key}</b>
         </p>

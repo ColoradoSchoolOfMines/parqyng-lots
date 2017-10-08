@@ -1,3 +1,5 @@
 {
-    "server": "http://localhost:8080"
+    "server": "http://localhost:8080",
+    "show_bar": true,
+    "show_oled": true
 }

@@ -30,6 +30,8 @@ $(function(){
                 }
 
                 $(`#lot-${lot.id}-cars`).html(lot.cars + ` (${in_and_out})`);
+                $(`#lot-${lot.id}-percentage`).text(Math.ceil(lot.cars / lot.capacity * 100));
+
                 lot.nodes.forEach(function (node) {
                     if (!$(`#node-${node.key}`).length) {
                         $(`<p id="node-${node.key}"></p>`).appendTo($(`#lot-${lot.id}-body`));

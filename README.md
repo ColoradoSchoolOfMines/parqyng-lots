@@ -4,7 +4,9 @@
 This is a hackathon project for tracking the number of cars in an arbitrary
 number of parking lots with an arbitrary number of enterances.
 
-<https://youtu.be/qi9YZLhS0gk>
+View our video here: <https://youtu.be/qi9YZLhS0gk>
+
+[![Video](https://github.com/ColoradoSchoolOfMines/parqyng-lots/raw/master/assets/video.png)](https://www.youtube.com/watch?v=qi9YZLhS0gk)
 
 ## Design
 ![System Diagram](https://github.com/ColoradoSchoolOfMines/parqyng-lots/raw/master/assets/system-diagram.png)

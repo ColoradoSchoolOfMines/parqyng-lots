@@ -2,7 +2,7 @@
 # Xilinx Hackathon Project
 
 This is a hackathon project for tracking the number of cars in an arbitrary
-number of parking lots with an arbitrary number of enterances.
+number of parking lots with an arbitrary number of entrances.
 
 View our video here: <https://youtu.be/qi9YZLhS0gk>
 
@@ -18,7 +18,7 @@ Open the `client/detector.ipynb` file in Jupyter Notebooks. Follow the
 instructions for installing the hardware.
 
 ### Server
-The server is written Python using the [TurboGears](http://turbogears.com/)
+The server is written in Python using the [TurboGears](http://turbogears.com/)
 framework.
 
 1. Install the application and its dependencies:
